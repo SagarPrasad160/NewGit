@@ -73,6 +73,13 @@
 
 var form=document.getElementById("addForm");
 var itemsList=document.getElementById('items');
+var filter=document.getElementById('filter');
+
+
+
+
+// Filter items
+filter.addEventListener('keyup',filteritems);
 
 //Form submit Event
 
@@ -82,10 +89,12 @@ function addItem(e){
     e.preventDefault();
     
     var newItem=document.getElementById('item').value;
+    var itemDescription=document.getElementById('item-description').value;
     var li=document.createElement('li');
     li.className='list-group-item';
     //Adding text node
     li.appendChild(document.createTextNode(newItem));
+    li.appendChild(document.createTextNode(itemDescription));
 
     //Adding delete button
     var deleteBtn=document.createElement('button');
@@ -106,4 +115,19 @@ function removeItem(e){
             itemsList.removeChild(li);
         }
     }
+}
+
+function filteritems(e){
+    var text=e.target.value.toLowerCase();
+    var items=itemsList.getElementsByTagName('li');
+    // Converting to array
+    Array.from(items).forEach(function(item){
+        var itemName=item.firstChild.textContent;
+        if(itemName.toLowerCase().indexOf(text)!=-1){
+            item.style.display='block';
+        }
+        else{
+            item.style.display='none';
+        }
+    });
 }
